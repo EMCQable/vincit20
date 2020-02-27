@@ -31,7 +31,7 @@ const handleCounter = () => {
   return info
 }
 
-app.get('/', (req, res) => {
+app.get('/counter', (req, res) => {
   const info = handleCounter();
   console.log('counter at ', counter)
   console.log(info)
