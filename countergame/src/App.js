@@ -16,7 +16,7 @@ class App extends React.Component {
   }
 
   gamble = async () => {
-    var points = await axios.get('http://localhost:3001/')
+    var points = await axios.get('/counter')
     points = points.data
     return points
   }
