@@ -5,7 +5,7 @@ import axios from 'axios'
 
 class App extends React.Component {
   constructor(props) {
-    var localPoints = window.localStorage.getItem('points')
+    let localPoints = window.localStorage.getItem('points')
     if (localPoints === null){
       localPoints = 20
     }
@@ -16,7 +16,7 @@ class App extends React.Component {
   }
 
   gamble = async () => {
-    var points = await axios.get('/counter')
+    let points = await axios.get('/counter')
     points = points.data
     return points
   }
