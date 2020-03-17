@@ -5,8 +5,8 @@ import axios from 'axios'
 
 class App extends React.Component {
   constructor(props) {
-    let localPoints = window.localStorage.getItem('points')
-    if (localPoints === null){
+    let localPoints = Number(window.localStorage.getItem('points'))
+    if (localPoints === null) {
       localPoints = 20
     }
     super(props);
@@ -15,17 +15,20 @@ class App extends React.Component {
     };
   }
 
-  gamble = async () => {
-    let points = await axios.get('/counter')
-    points = points.data
-    return points
+  gamble = async (points) => {
+    const pointObject = {
+      points
+    }
+    let newPoints = await axios.post('/', pointObject)
+    newPoints = newPoints.data
+    return newPoints
   }
 
   hasPoints = () => {
     return (
       <p>
         Push the button to gamble for points. You currently have {this.state.points} points.
-    </p>
+      </p>
     )
   }
 
@@ -54,18 +57,12 @@ class App extends React.Component {
   }
 
   handlePress = () => async () => {
-    if (this.state.points === 0) {
-      this.setState({
-        points: 20
-      })
-    } else {
-      const added = await this.gamble()
-      this.setState({
-        points: (this.state.points - 1 + added.reward),
-        untilNextReward: added.untilNextReward
-      })
-      window.localStorage.setItem('points', this.state.points)
-    }
+    const added = await this.gamble(this.state.points)
+    this.setState({
+      points: added.points,
+      untilNextReward: added.untilNextReward
+    })
+    window.localStorage.setItem('points', this.state.points)
   }
 
   render() {
@@ -76,7 +73,7 @@ class App extends React.Component {
             PUSH ME
           </button>
           {this.text()}
-          {this.state.untilNextReward && this.untilNext()}
+          {this.state.untilNextReward && !(this.state.points === 0) && this.untilNext()}
         </header>
       </div>
     );

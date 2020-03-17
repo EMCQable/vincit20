@@ -4,10 +4,11 @@ const cors = require('cors')
 const app = express()
 app.use(cors())
 app.use(express.static('build'))
+app.use(express.json())
 
 let counter = 0
 
-const handleCounter = () => {
+const handleCounter = (points) => {
   counter = counter +1
   let reward = 0
   let untilNextReward = 10 - counter % 10
@@ -25,14 +26,32 @@ const handleCounter = () => {
     reward = 250
   }
   const info = {
-    reward,
+    points: points + reward -1,
     untilNextReward
   }
   return info
 }
 
-app.get('/counter', (req, res) => {
-  const info = handleCounter()
+const resetPoints = () => {
+  let points = 20
+  let untilNextReward = 10 - counter % 10
+  let info = {
+    points,
+    untilNextReward
+  }
+  return info
+}
+
+const handlePoints = (points) => {
+  if (points < 1 | !points){
+    return resetPoints()
+  } else {
+    return handleCounter(points)
+  }
+}
+
+app.post('/', (req, res) => {
+  const info = handlePoints(req.body.points)
   res.json(info)
 })
 
