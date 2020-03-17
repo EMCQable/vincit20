@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "NODE_ENV=test jest --verbose --runInBand --testPathIgnorePatterns='src/'",
-    "lint": "eslint ."
+    "lint": "eslint . --no-eslintrc -c .eslintrc.js"
   },
   "repository": {
     "type": "git",
@@ -16,10 +16,10 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "eslint": "^6.8.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "jest": "^24.9.0",
     "supertest": "^4.0.2"
   }

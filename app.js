@@ -7,7 +7,6 @@ app.use(express.static('build'))
 app.use(express.json())
 
 let counter = 0
-locked = false
 
 const handleCounter = (points) => {
   counter = counter + 1
